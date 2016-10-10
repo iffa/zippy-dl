@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">zippy-dl</string>
+    <string name="download">Download</string>
+</resources>

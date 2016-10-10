@@ -1,0 +1,76 @@
+apply plugin: 'io.github.rockerhieu.versionberg'
+apply plugin: 'com.android.application'
+
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+
+versionberg {
+    major 1
+    minor 0
+    nameTemplate '${major}.${minor}.${commitCount}.${commitSha}'
+    codeTemplate '(((${major} * 100) + ${minor}) * 100) * 100000 + ${build}'
+}
+
+android {
+    compileSdkVersion 24
+    buildToolsVersion "24.0.3"
+
+    defaultConfig {
+        applicationId "xyz.santeri.zippy"
+
+        minSdkVersion 19
+        targetSdkVersion 24
+
+        versionCode versionberg.code
+        versionName versionberg.name
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    productFlavors {
+        dev { // A higher minimum SDK version gives build times a nice boost
+            minSdkVersion 21
+        }
+        publish {
+            minSdkVersion 19
+        }
+    }
+
+
+}
+
+dependencies {
+    def appcompatVersion = '24.2.1'
+    def daggerVersion = '2.7'
+    def thirtyinchVersion = '0.7.1'
+
+    compile "com.android.support:appcompat-v7:$appcompatVersion"
+
+    compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
+
+    compile "com.google.dagger:dagger:$daggerVersion"
+    kapt "com.google.dagger:dagger-compiler:$daggerVersion"
+    provided 'org.glassfish:javax.annotation:10.0-b28' // Required by Dagger
+
+    compile "net.grandcentrix.thirtyinch:thirtyinch:$thirtyinchVersion"
+    compile "net.grandcentrix.thirtyinch:thirtyinch-rx:$thirtyinchVersion"
+
+    compile 'io.reactivex:rxjava:1.2.1'
+    compile 'io.reactivex:rxandroid:1.2.1'
+    compile 'com.jakewharton.rxbinding:rxbinding:0.4.0'
+
+    compile 'com.jakewharton.timber:timber:4.3.1'
+
+    compile 'org.jsoup:jsoup:1.9.2'
+
+    compile 'org.greenrobot:eventbus:3.0.0'
+}
+
+kapt {
+    generateStubs = true
+}
