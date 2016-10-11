@@ -1,12 +1,13 @@
-package xyz.santeri.zippy.download.web
+package xyz.santeri.zippy.ui.download.web
 
 import android.webkit.JavascriptInterface
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import org.greenrobot.eventbus.EventBus
 import org.jsoup.Jsoup
-import xyz.santeri.zippy.download.DownloadUrlEvent
-import xyz.santeri.zippy.download.ParseErrorEvent
+import xyz.santeri.zippy.model.DownloadInfo
+import xyz.santeri.zippy.ui.download.DownloadUrlEvent
+import xyz.santeri.zippy.ui.download.ParseErrorEvent
 
 /**
  * @author Santeri Elo
@@ -25,7 +26,11 @@ class DownloadJsInterface {
         val document = Jsoup.parse(html)
 
         if (document.select("a#dlbutton").size > 0) {
-            EventBus.getDefault().post(DownloadUrlEvent(document.select("a#dlbutton").first().attr("href"), url))
+            val downloadUrl = document.select("a#dlbutton").first().attr("href")
+            val title = document.select("div.left > font[style$='line-height:20px; font-size: 14px;']")
+                    .first().text()
+
+            EventBus.getDefault().post(DownloadUrlEvent(DownloadInfo(downloadUrl, title)))
         } else {
             EventBus.getDefault().post(ParseErrorEvent())
         }

@@ -20,7 +20,17 @@
         android:padding="@dimen/padding_content">
 
         <TextView
-            android:id="@+id/title"
+            android:textSize="24sp"
+            android:text="@string/app_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:textAppearance="?android:textAppearanceMedium"
+            android:textColor="?android:textColorPrimaryInverse" />
+
+        <TextView
+            android:layout_marginTop="16dp"
+            android:id="@+id/fileTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
@@ -30,11 +40,11 @@
 
         <Button
             android:id="@+id/download"
-            style="@style/Widget.AppCompat.Button.Borderless.Colored"
+            style="@style/Widget.AppCompat.Button.Colored"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="8dp"
             android:enabled="false"
             android:text="@string/download" />
 

@@ -2,7 +2,7 @@
     package="xyz.santeri.zippy">
 
     <uses-permission android:name="android.permission.INTERNET" />
-
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:name=".App"
@@ -14,7 +14,7 @@
         android:theme="@style/Theme.Zippy">
 
         <activity
-            android:name=".download.DownloadActivity"
+            android:name="xyz.santeri.zippy.ui.download.DownloadActivity"
             android:theme="@style/Theme.Zippy.Translucent">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

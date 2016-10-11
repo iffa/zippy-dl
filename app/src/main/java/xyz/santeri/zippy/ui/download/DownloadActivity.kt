@@ -1,7 +1,10 @@
-package xyz.santeri.zippy.download
+package xyz.santeri.zippy.ui.download
 
+import android.Manifest
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
+import com.github.jksiezni.permissive.Permissive
 import com.jakewharton.rxbinding.view.RxView
 import kotlinx.android.synthetic.main.activity_download.*
 import net.grandcentrix.thirtyinch.TiActivity
@@ -10,8 +13,8 @@ import net.grandcentrix.thirtyinch.callonmainthread.CallOnMainThread
 import rx.Observable
 import timber.log.Timber
 import xyz.santeri.zippy.R
-import xyz.santeri.zippy.download.web.DownloadClient
-import xyz.santeri.zippy.download.web.DownloadJsInterface
+import xyz.santeri.zippy.ui.download.web.DownloadClient
+import xyz.santeri.zippy.ui.download.web.DownloadJsInterface
 
 /**
  * @author Santeri Elo
@@ -26,12 +29,6 @@ class DownloadActivity : TiActivity<DownloadPresenter, DownloadView>(), Download
 
         val uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN
         window.decorView.systemUiVisibility = uiOptions
-
-        if (intent.data == null) {
-            Timber.e("Activity started without intent data")
-        } else {
-            prepareWebView(intent.data.toString())
-        }
     }
 
     private fun prepareWebView(url: String) {
@@ -54,18 +51,50 @@ class DownloadActivity : TiActivity<DownloadPresenter, DownloadView>(), Download
         webview.loadUrl(url)
     }
 
+    override fun showInfo() {
+        fileTitle.setText(R.string.info)
+    }
+
+    override fun checkPermissions() {
+        Permissive.Request(Manifest.permission.WRITE_EXTERNAL_STORAGE).whenPermissionsGranted {
+            presenter.onPermissionGranted()
+        }.whenPermissionsRefused {
+            Timber.e("Permission was refused - can't download")
+        }.execute(this)
+    }
+
     override fun showReady() {
+        download.isEnabled = true
+
+        Toast.makeText(this, R.string.download_ready, Toast.LENGTH_LONG).show()
     }
 
     override fun showError() {
     }
 
+    override fun showTitle(title: String) {
+        fileTitle.text = title
+    }
+
     override fun showDownloading() {
+        fileTitle.setText(R.string.downloading)
+        Toast.makeText(this, R.string.downloading, Toast.LENGTH_LONG).show()
+    }
+
+    override fun showParsing() {
+        fileTitle.setText(R.string.parsing)
+        Toast.makeText(this, R.string.parsing, Toast.LENGTH_LONG).show()
+    }
+
+    override fun parseWebsite(url: String) {
+        prepareWebView(url)
     }
 
     override fun onDownloadClicked() = RxView.clicks(download)
 
-    override fun providePresenter(): DownloadPresenter = DownloadPresenter(this)
+    override fun providePresenter(): DownloadPresenter {
+        return DownloadPresenter(this, intent.data?.toString())
+    }
 
     override fun finish() {
         super.finish()
@@ -84,4 +113,19 @@ interface DownloadView : TiView {
 
     @CallOnMainThread
     fun showDownloading()
+
+    @CallOnMainThread
+    fun showParsing()
+
+    @CallOnMainThread
+    fun showTitle(title: String)
+
+    @CallOnMainThread
+    fun parseWebsite(url: String)
+
+    @CallOnMainThread
+    fun checkPermissions()
+
+    @CallOnMainThread
+    fun showInfo()
 }

@@ -6,7 +6,7 @@ import android.content.Context
 import dagger.Component
 import dagger.Module
 import dagger.Provides
-import xyz.santeri.zippy.download.DownloadPresenter
+import xyz.santeri.zippy.ui.download.DownloadPresenter
 import javax.inject.Qualifier
 import javax.inject.Singleton
 
