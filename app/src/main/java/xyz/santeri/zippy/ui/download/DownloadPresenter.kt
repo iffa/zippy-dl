@@ -31,8 +31,6 @@ class DownloadPresenter(context: Context, val url: String?) : TiPresenter<Downlo
 
     @Subscribe
     fun onDownloadUrlEvent(event: DownloadUrlEvent) {
-        Timber.d("Successfully parsed download info: '%s'", event.info)
-
         downloadInfo = event.info
         view.showTitle(downloadInfo!!.title)
         view.showReady()
@@ -43,7 +41,6 @@ class DownloadPresenter(context: Context, val url: String?) : TiPresenter<Downlo
     }
 
     private fun downloadFile() {
-        val fileTitle = downloadInfo!!.downloadUrl.split("/")[4]
         val realUrl = Uri.parse(url!!.split("/v/")[0] + downloadInfo!!.downloadUrl)
         val request = DownloadManager.Request(realUrl)
 
@@ -52,9 +49,11 @@ class DownloadPresenter(context: Context, val url: String?) : TiPresenter<Downlo
         request.allowScanningByMediaScanner()
         request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
 
-        request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, fileTitle)
+        request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, downloadInfo!!.title)
 
         downloadManager.enqueue(request)
+
+        Timber.d("Started download, URL: '%s'", realUrl)
 
         view.showDownloading()
     }
@@ -62,6 +61,7 @@ class DownloadPresenter(context: Context, val url: String?) : TiPresenter<Downlo
     @Subscribe
     fun onParseErrorEvent(event: ParseErrorEvent) {
         Timber.e("Failed to parse download link from page")
+        view.showError()
     }
 
     override fun onWakeUp() {

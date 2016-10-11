@@ -2,6 +2,7 @@
     <string name="app_name">zippy-dl</string>
     <string name="download">Download</string>
     <string name="download_ready">Ready to download</string>
+    <string name="error_parse">Failed to parse file (deleted or expired?)</string>
     <string name="parsing">Parsing - please wait…</string>
     <string name="downloading">Downloading - see notification</string>
     <string name="info">Open a Zippyshare file link and open it with this app for easy downloading! hf gl /r/skrillex</string>

@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import com.github.jksiezni.permissive.Permissive
+import com.google.android.gms.ads.AdRequest
 import com.jakewharton.rxbinding.view.RxView
 import kotlinx.android.synthetic.main.activity_download.*
 import net.grandcentrix.thirtyinch.TiActivity
@@ -29,6 +30,17 @@ class DownloadActivity : TiActivity<DownloadPresenter, DownloadView>(), Download
 
         val uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN
         window.decorView.systemUiVisibility = uiOptions
+
+        loadAds()
+    }
+
+    private fun loadAds() {
+        val adRequest = AdRequest.Builder()
+                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+                .addTestDevice("84275ACA55FEE01D25BACD7DC1A42F7A")
+                .build()
+
+        adView.loadAd(adRequest)
     }
 
     private fun prepareWebView(url: String) {
@@ -70,6 +82,9 @@ class DownloadActivity : TiActivity<DownloadPresenter, DownloadView>(), Download
     }
 
     override fun showError() {
+        fileTitle.setText(R.string.error_parse)
+
+        Toast.makeText(this, R.string.error_parse, Toast.LENGTH_LONG).show()
     }
 
     override fun showTitle(title: String) {

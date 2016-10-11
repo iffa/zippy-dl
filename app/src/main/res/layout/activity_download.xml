@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/translucentBackground">
 
     <!-- Magic -->
@@ -49,5 +50,13 @@
             android:text="@string/download" />
 
     </LinearLayout>
+
+    <com.google.android.gms.ads.AdView
+        android:layout_gravity="bottom|center_horizontal"
+        android:id="@+id/adView"
+        app:adSize="BANNER"
+        app:adUnitId="@string/ad_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
 </FrameLayout>
