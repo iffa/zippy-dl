@@ -1,9 +1,9 @@
 <resources>
-    <string name="app_name">zippy-dl</string>
+    <string name="app_name">Zippyloader</string>
     <string name="download">Download</string>
     <string name="download_ready">Ready to download</string>
     <string name="error_parse">Failed to parse file (deleted or expired?)</string>
     <string name="parsing">Parsing - please wait…</string>
     <string name="downloading">Downloading - see notification</string>
-    <string name="info">Open a Zippyshare link for easy downloading!\nThanks to Icons8 for the app icon.</string>
+    <string name="info">Open a Zippyshare.com link for easy downloading!\nThanks to Icons8 for the app icon.</string>
 </resources>
