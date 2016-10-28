@@ -5,21 +5,21 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
 versionberg {
-    major 1
+    major 2
     minor 0
     nameTemplate '${major}.${minor}.${commitCount}.${commitSha}'
     codeTemplate '(((${major} * 100) + ${minor}) * 100) * 100000 + ${build}'
 }
 
 android {
-    compileSdkVersion 24
-    buildToolsVersion "24.0.3"
+    compileSdkVersion 25
+    buildToolsVersion '25.0.0'
 
     defaultConfig {
         applicationId "xyz.santeri.zippy"
 
         minSdkVersion 19
-        targetSdkVersion 24
+        targetSdkVersion 25
 
         versionCode versionberg.code
         versionName versionberg.name
@@ -34,20 +34,25 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+
+        debug {
+            versionNameSuffix ' debug'
+        }
     }
 
-    productFlavors {
-        dev { // A higher minimum SDK version gives build times a nice boost
-            minSdkVersion 21
-        }
-        publish {
-            minSdkVersion 19
-        }
+    lintOptions {
+        abortOnError false
+        textReport true
+        textOutput "stdout"
+        checkAllWarnings true
+        showAll true
+        explainIssues true
     }
+
 }
 
 dependencies {
-    def appcompatVersion = '24.2.1'
+    def appcompatVersion = '25.0.0'
     def firebaseVersion = '9.6.1'
     def daggerVersion = '2.7'
     def thirtyinchVersion = '0.7.1'
