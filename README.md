@@ -4,9 +4,12 @@ Zippyshare file downloader for Android
 
 ### Download:
 
-* Not released on the Play store
+* Download from the [Play store](https://play.google.com/store/apps/details?id=xyz.santeri.zippy)
+* Find an installable apk-file from the app/-folder
+* Build from source yourself :-)
 
-Check for APK in app/. If it doesn't exist, build it yourself. HF & GL
+
+With ❤️ from Finland
 
 ### License
 
