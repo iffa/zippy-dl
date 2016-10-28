@@ -59,6 +59,7 @@ class DownloadPresenter(context: Context, val url: String?) : TiPresenter<Downlo
     }
 
     @Subscribe
+    @SuppressWarnings("UnusedProperty")
     fun onParseErrorEvent(event: ParseErrorEvent) {
         Timber.e("Failed to parse download link from page")
         view.showError()
